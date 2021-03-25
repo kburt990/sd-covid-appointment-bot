@@ -31,7 +31,7 @@ def get_appointments() -> dict:
             if not row.find_all('i'):
                 date = row.find_all('td')[0].text  # get date
                 if header in open_apps.keys():
-                    open_apps[header].append[date]
+                    open_apps[header].append(date)
                 else:
                     open_apps[header] = [date]
 
