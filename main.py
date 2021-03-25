@@ -39,9 +39,9 @@ def get_appointments() -> dict:
 
 
 def print_appointments(appointments:dict) -> None:
-
+    """Prints formatted appointments"""
     if not appointments:
-        print("None available.")
+        print("No appointments currently available.")
     else:
         for key in appointments.keys():
             print(key)
@@ -50,9 +50,12 @@ def print_appointments(appointments:dict) -> None:
 
 
 def print_time() -> None:
+    """Prints formatted date"""
     current_time = datetime.datetime.now()
+    current_date = datetime.datetime.today()
     time_str = current_time.strftime("%H:%M:%S")
-    print(f"Appointments as of {time_str}")
+    day_str = current_date.strftime("%B %d, %Y")
+    print(f"Appointments as of {day_str} at {time_str}")
 
 
 def run() -> None:
