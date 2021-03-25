@@ -1,11 +1,9 @@
 from bs4 import BeautifulSoup
+from playsound import playsound
 import requests
 import re
 import time
-from playsound import playsound
 import datetime
-
-from collections import defaultdict
 
 
 def get_appointments() -> dict:
@@ -42,16 +40,19 @@ def get_appointments() -> dict:
 
 def print_appointments(appointments:dict) -> None:
 
-    for key in appointments.keys():
-        print(key)
-        for appointment in appointments[key]:
-            print(f"   * {appointment}")
+    if not appointments:
+        print("None available.")
+    else:
+        for key in appointments.keys():
+            print(key)
+            for appointment in appointments[key]:
+                print(f"   * {appointment}")
 
 
 def print_time() -> None:
     current_time = datetime.datetime.now()
     time_str = current_time.strftime("%H:%M:%S")
-    print(f"New appointments as of {time_str}")
+    print(f"Appointments as of {time_str}")
 
 
 def run() -> None:
