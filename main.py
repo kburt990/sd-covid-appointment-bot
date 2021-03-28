@@ -32,10 +32,11 @@ def get_appointments() -> dict:
         for row in table.findChildren('tr')[1:]:
             if not row.find_all('i'):
                 date = row.find_all('td')[0].text  # get date
-                if header in open_apps.keys():
-                    open_apps[header].append(date)
-                else:
-                    open_apps[header] = [date]
+                if date != '\xa0':  # remove Latin1 spaces
+                    if header in open_apps.keys():
+                        open_apps[header].append(date)
+                    else:
+                        open_apps[header] = [date]
 
     return open_apps
 
