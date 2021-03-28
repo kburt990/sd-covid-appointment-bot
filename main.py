@@ -21,7 +21,7 @@ def get_appointments() -> dict:
     for header in parsed_site.findChildren('b'):
         if header_re.match(header.text.strip()):
             headers.append(header.text)
-    for header in parsed_site.findChildren('a'): # get all headers, for some reason they are under 2 different html tags
+    for header in parsed_site.findChildren('a'):  # get all headers, for some reason they are under 2 different html tags
         if header_re.match(header.text.strip()):
             headers.append(header.text)
 
@@ -68,7 +68,7 @@ def get_api_key() ->str:
     return key.rstrip()
 
 
-def gen_notification(appointments: dict) ->str:
+def gen_notification(appointments: dict) -> str:
     """Generates notification from appointments dict"""
     notification = ""
     for key in appointments.keys():
@@ -80,7 +80,7 @@ def gen_notification(appointments: dict) ->str:
     return notification
 
 
-def send_notification(key: str, appointments: dict)->None:
+def send_notification(key: str, appointments: dict) -> None:
     """Send notifcation via PushBullet"""
     try:
         if appointments:  # only send notification if there are available appointments
@@ -92,7 +92,7 @@ def send_notification(key: str, appointments: dict)->None:
         print("Invalid PushBullet key, make sure ")
 
 
-def checkArgs():
+def check_args():
     if len(sys.argv) > 1 and sys.argv[1] == "True":
         return True
     return False
@@ -120,7 +120,7 @@ def run(pb_flag: bool) -> None:
 
 
 if __name__ == "__main__":
-    pb_flag = checkArgs()
+    pb_flag = check_args()
     run(pb_flag)
 
 
