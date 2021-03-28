@@ -89,7 +89,7 @@ def send_notification(key: str, appointments: dict) -> None:
             push = pb.push_note("Open appointments",notification)
 
     except InvalidKeyError:
-        print("Invalid PushBullet key, make sure ")
+        print("Invalid PushBullet key")
 
 
 def check_args():
