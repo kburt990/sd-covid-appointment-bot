@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 from playsound import playsound
+from pushbullet import PushBullet, InvalidKeyError
+import sys
 import requests
 import re
 import time
@@ -58,8 +60,46 @@ def print_time() -> None:
     print(f"Appointments as of {day_str} at {time_str}")
 
 
-def run() -> None:
-    """Main loop"""
+def get_api_key() ->str:
+    """Gets PushBullet API key"""
+    file = open('api.txt')
+    key = file.readline()
+    print(key)
+    return key.rstrip()
+
+
+def gen_notification(appointments: dict) ->str:
+    """Generates notification from appointments dict"""
+    notification = ""
+    for key in appointments.keys():
+        notification = notification + f"{key}: "
+        for appointment in appointments[key]:
+            notification = notification + f"{appointment} "
+        notification = notification + " "
+    print(notification)
+    return notification
+
+
+def send_notification(key: str, appointments: dict)->None:
+    """Send notifcation via PushBullet"""
+    try:
+        if appointments:  # only send notification if there are available appointments
+            pb = PushBullet(key)
+            notification = gen_notification(appointments)
+            push = pb.push_note("Open appointments",notification)
+
+    except InvalidKeyError:
+        print("Invalid PushBullet key, make sure ")
+
+
+def checkArgs():
+    if len(sys.argv) > 1 and sys.argv[1] == "True":
+        return True
+    return False
+
+
+def run(pb_flag: bool) -> None:
+    """Main loop, pushs notifications through PushBullet if pb_flag is true"""
 
     appointments = None
 
@@ -71,17 +111,17 @@ def run() -> None:
             appointments = current_apps
             print_time()
             print_appointments(appointments)
+            if pb_flag:
+                send_notification(get_api_key(),appointments)
 
         time.sleep(30)
 
 
 
 
-
-
-
 if __name__ == "__main__":
-    run()
+    pb_flag = checkArgs()
+    run(pb_flag)
 
 
 
